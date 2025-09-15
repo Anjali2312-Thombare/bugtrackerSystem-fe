@@ -17,6 +17,11 @@ export function Projects() {
     navigate("/bugs", { state: { projectId } });
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/signin");
+  };
+
   useEffect(() => {
     const userIdFromStorage = localStorage.getItem("userId");
     const usernameFromStorage = localStorage.getItem("username");
@@ -31,7 +36,9 @@ export function Projects() {
 
     const fetchProjects = async () => {
       try {
-        const res = await fetch(`http://localhost:8585/api/projects/user/${userIdFromStorage}`);
+        const res = await fetch(
+          `http://localhost:8585/api/projects/user/${userIdFromStorage}`
+        );
         if (!res.ok) throw new Error("Failed to fetch projects for user");
         const data = await res.json();
         setProjects(data);
@@ -41,7 +48,7 @@ export function Projects() {
     };
 
     fetchProjects();
-  }, []);
+  }, [projects]);
 
   const handleSave = (updatedProject) => {
     setProjects((prevProjects) =>
@@ -57,11 +64,38 @@ export function Projects() {
 
   return (
     <>
-      {/* Navbar */}
+      {/* Navbar with right-aligned tabs */}
       <div className="bg-yellow-500 text-black px-6 py-3 flex justify-between items-center mb-6">
-        <div className="text-lg font-semibold">Bug Tracker</div>
-        <div className="text-sm">
-          Logged in as: <span className="font-bold">{username}</span> (ID: {userId})
+        {/* Left: App Title */}
+        <div className="text-lg font-semibold">🐛 Bug Tracker</div>
+
+        {/* Right: Tabs */}
+        <div className="flex space-x-6 items-center text-sm font-medium">
+          <span className="text-gray-800">Hello, <strong>{username}</strong> ( {userId})</span>
+          <button
+            onClick={() => navigate("/all-projects")}
+            className="hover:underline"
+          >
+            All Projects
+          </button>
+          <button
+            onClick={() => navigate("/all-bugs")}
+            className="hover:underline"
+          >
+            All Bugs
+          </button>
+          <button
+            onClick={() => navigate("/profile")}
+            className="hover:underline"
+          >
+            All Profiles
+          </button>
+          <button
+            onClick={handleLogout}
+            className="text-red-600 hover:underline"
+          >
+            Logout
+          </button>
         </div>
       </div>
 

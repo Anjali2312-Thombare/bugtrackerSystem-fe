@@ -61,8 +61,9 @@ export function Bugs() {
     }
   }, [projectId]);
 
-  const handleNavigateToComments = () => {
-    navigate("/comments");
+  // ✅ Updated: Navigate to comments with bugId
+  const handleNavigateToComments = (bugId) => {
+    navigate("/comments", { state: { bugId } });
   };
 
   const fetchAllBugs = async () => {
@@ -89,7 +90,7 @@ export function Bugs() {
 
   useEffect(() => {
     fetchAllBugs();
-  }, []);
+  }, [bugs]);
 
   const handleAddBug = (newBug) => {
     setBugs((prev) => [newBug, ...prev]);
@@ -214,9 +215,6 @@ export function Bugs() {
         </button>
       </div>
 
-      {/* Navigate to Comments */}
-      <Button title="Go to comments of bug" onclick={handleNavigateToComments} />
-
       {/* Bug List */}
       <div className="mt-4 space-y-4">
         {bugs.length > 0 ? (
@@ -226,7 +224,7 @@ export function Bugs() {
               bug={bug}
               onEdit={() => handleEdit(bug)}
               onDelete={() => handleDelete(bug)}
-              onclick={handleNavigateToComments}
+              onclick={() => handleNavigateToComments(bug.id)} // ✅ send bugId to comments
             />
           ))
         ) : (

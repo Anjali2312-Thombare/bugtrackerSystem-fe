@@ -9,6 +9,8 @@ import { Projects } from './pages/UserProjects'
 import { Bugs } from './pages/ProjectsBugs'
 import { Comments } from './pages/BugsComments'
 import Signup from './pages/Signup'
+import AllProjects from './pages/AllProjects'
+import AllBugs from './pages/AllBugs'
 
 
 function App() {
@@ -27,6 +29,9 @@ function App() {
      <Route path="/projects" element={<Projects/>} />
      <Route path="/bugs" element={<Bugs/>} />
      <Route path="/comments" element={<Comments/>} />
+      <Route path="/all-projects" element={<AllProjects/>} />
+      <Route path="/all-bugs" element={<AllBugs/>} />
+     
      
     
   </Routes>
